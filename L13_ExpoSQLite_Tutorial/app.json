@@ -33,7 +33,9 @@
           "imageWidth": 76
         }
       ],
-      "expo-sqlite"
+      "expo-sqlite",
+      "@react-native-vector-icons/material-icons",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
