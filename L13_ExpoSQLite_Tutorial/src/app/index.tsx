@@ -1,3 +1,4 @@
+import ItemInFound from "@/components/ItemInFound";
 import ItemRow from "@/components/ItemRow";
 import { useSQLiteContext } from "expo-sqlite";
 import { useEffect, useState } from "react";
@@ -191,7 +192,7 @@ export default function App() {
   const findItem = async () => {
     const list = await getItem(db, searchItem);
     console.log(list);
-    if (list) {
+    if (list.length !== 0) {
       if (resultsVisible) {
         setResultsVisible(false);
       } else {
@@ -199,7 +200,7 @@ export default function App() {
       }
       setResultList(list);
     } else {
-      alert("That item doesn't exist");
+      alert("The list doesn't have anything in it.. add some stuff first!");
     }
   };
 
@@ -227,17 +228,26 @@ export default function App() {
             />
           )}
         </View>
-        {resultsVisible && (
+        {items.length === 0 && (
+          <Text style={{ margin: 5 }}>No elements yet!</Text>
+        )}
+        {items.length !== 0 && resultsVisible && (
+          <Text style={{ fontSize: 20, fontWeight: "600", marginTop: 10 }}>
+            Results
+          </Text>
+        )}
+        {items.length !== 0 && resultsVisible && (
           <FlatList
+            style={{
+              margin: 20,
+              borderWidth: 2,
+              borderRadius: 7,
+              maxHeight: 200,
+            }}
             data={resultList}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <ItemRow
-                name={item.name}
-                quantity={item.quantity}
-                onEdit={() => startEdit(item)}
-                onDelete={() => confirmDelete(item.id)}
-              />
+              <ItemInFound name={item.name} quantity={item.quantity} />
             )}
           />
         )}

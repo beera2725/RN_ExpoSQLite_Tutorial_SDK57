@@ -144,8 +144,9 @@ export const getItem = async (
   name: string,
 ): Promise<Item[]> => {
   const results = await db.getAllAsync<Item>(
-    "SELECT * FROM items WHERE name = ?;",
-    [name],
+    "SELECT * FROM items WHERE name LIKE ?;",
+    //used this to figure out the SQL syntax: https://www.google.com/search?gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQIRgKGKABMgkIAhAhGAoYoAEyCQgDECEYChigATIJCAQQIRgKGKABMgcIBRAhGI8CMgcIBhAhGI8C0gEJMTI5MDJqMGo3qAIAsAIA&ie=UTF-8&oq=how+to+check+if++a+name+in+sqlite+has+a+chaarcter&q=how+to+check+if+a+name+in+sqlite+has+a+chaarcter&source=chrome.ob&sourceid=chrome&surl=1&safe=active&ssui=on
+    `%${name}%`,
   );
   return results;
 };
